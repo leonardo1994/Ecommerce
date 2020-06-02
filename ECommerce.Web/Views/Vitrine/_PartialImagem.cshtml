@@ -1,0 +1,7 @@
+﻿@model IList<ProdutoImagem>
+@using ECommerce.Web.Areas.Admin.Models
+
+@foreach (var item in Model)
+{
+    <img src="@item.Imagem" alt="" />
+}

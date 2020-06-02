@@ -1,0 +1,68 @@
+﻿@using ECommerce.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Entrar";
+    Layout = null;
+}
+
+<div class="row" id="principal-login">
+    <div class="col-md-6" id="div-login">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h1 class="text-center">Já possui cadastro ? </h1>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Digite seu e-mail" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Digite a senha" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <ul class="list-group">
+                            @*<li class="list-group-item">
+                                    @Html.LabelFor(m => m.RememberMe)
+                                    <div class="material-switch pull-right">
+                                        <input id="RememberMe" name="RememberMe" type="checkbox" />
+                                        <label for="RememberMe" class="label-primary"></label>
+                                    </div>
+                                </li>*@
+                            <li class="list-group-item">
+                                <input type="submit" value="Entrar" class="btn btn-primary" />
+                            </li>
+                            <li class="list-group-item">
+                                @Html.ActionLink("esqueceu sua senha ?", "ForgotPassword", null, new { @class = "btn btn-sm btn-danger" })
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-md-offset-2 col-md-4" id="div-registrar">
+        <div class="text-center">
+            <h3 class="text-primary">Cadastra-se agora</h3>
+            <p>
+                @Html.ActionLink("Registrar como um novo usuário", "Register", new { returnUrl = ViewBag.ReturnUrl }, new { @class = "btn btn-success" })
+            </p>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

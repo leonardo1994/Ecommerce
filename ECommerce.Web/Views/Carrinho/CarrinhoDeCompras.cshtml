@@ -1,0 +1,163 @@
+﻿@model ECommerce.Web.Models.CarrinhoViewModel
+@using ECommerce.Web.Models.EntCarrinho
+@{
+    ViewBag.Title = "Carrrinho de Compras";
+}
+
+@section Categorias{
+    <div class="container" id="categorias">
+        @{
+            Html.RenderAction("Index", "Categorias");
+        }
+    </div>
+}
+<br />
+<h3>Carrinho de Compras</h3>
+
+@if (TempData["MensagemCarrinho"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["MensagemCarrinho"]
+    </div>
+}
+else if (TempData["MensagemCarrinhoOK"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemCarrinhoOK"]
+    </div>
+}
+
+@if (Model.Carrinho.ItemCarrinhos.Count() != 0)
+{
+    <table id="carrinhoTable" class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th class="text-left text-uppercase">Produto</th>
+                <th class="text-center text-uppercase">Tamanho</th>
+                <th class="text-center text-uppercase">Cor</th>
+                @*<th class="text-center text-uppercase">Referência</th>*@
+                <th class="text-right text-uppercase">Quantidade</th>
+                <th class="text-right text-uppercase">Valor Unit.</th>
+                @if (Model.Carrinho.ItemCarrinhos.Any(c => c.PromocaoId.HasValue))
+                {
+                    <th class="text-right text-uppercase">Desconto</th>
+                }
+                <th class="text-right text-uppercase">Valor Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ItemCarrinho item in Model.Carrinho.ItemCarrinhos)
+            {
+                <tr>
+                    @{
+                        string caminhoImanagem = "";
+                        if (item.ProdutoMontado.ProdutoCor != null)
+                        {
+                            caminhoImanagem = item.ProdutoMontado.ProdutoCor.ProdutoImagens.Any() ? item.ProdutoMontado.ProdutoCor.ProdutoImagens.FirstOrDefault(p => p.ProdutoCorId == item.ProdutoMontado.ProdutoCorId).Imagem : "";
+                        }
+                    }
+                    <td><img id="imgProduto" src="@caminhoImanagem" alt="" class="img-responsive" style="max-height: 100px;" /></td>
+                    <td class="text-left">@item.ProdutoMontado.Descricao</td>
+                    @if (item.ProdutoMontado.ProdutoTamanho != null)
+                    {
+                        <td class="text-center">@item.ProdutoMontado.ProdutoTamanho.Tamanho.Codigo</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                    @if (item.ProdutoMontado.ProdutoCor != null)
+                    {
+                        <td class="text-center">@item.ProdutoMontado.ProdutoCor.Cor.Descricao</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                    @*  <td class="text-center">@item.ProdutoMontado.ProdutoTamanho.Tamanho.Referencia</td>*@
+                    <td class="text-right">
+                        @item.QuantidadeTotalItem
+                        @Html.ActionLink(" ", "Adicionar", "Carrinho", new { ProdutoId = item.ProdutoMontado.ProdutoId, ProdutoTamanhoId = item.ProdutoMontado.ProdutoTamanhoId, ProdutoCorId = item.ProdutoMontado.ProdutoCorId, tabelaPrecoId = item.TabelaPrecoId }, new { @class = "btn btn-sm glyphicon glyphicon-arrow-up btn-qtd-add" })
+                        @if (item.QuantidadeTotalItem > 1)
+                        {
+                            @Html.ActionLink(" ", "RemoverQtd", "Carrinho", new { produtoMontadoId = @item.ProdutoMontado.Id }, new { @class = "btn btn-sm glyphicon glyphicon-arrow-down btn-qtd-del" })
+                        }
+                    </td>
+                    <td class="text-right">@item.ValorUnitario.ToString("C")</td>
+                    @if (Model.Carrinho.ItemCarrinhos.Any(c => c.PromocaoId.HasValue))
+                    {
+                        if (item.Promocao.TipoValor == ECommerce.Web.Areas.Admin.Models.TipoValor.Porcentual)
+                        {
+                            <td class="text-right">(-)@item.Promocao.Valor%</td>
+                        }
+                        else
+                        {
+                            <td class="text-right">(-)@item.Promocao.Valor.ToString("C")</td>
+                        }
+                    }
+                    <td class="text-right">@item.ValorTotalItem.ToString("C")</td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("Remover", "Carrinho"))
+                        {
+                            @Html.Hidden("ProdutoMontadoId", item.ProdutoMontado.Id)
+                            <input class="btn btn-sm btn-warning" type="submit" value="Remover" />
+                        }
+                    </td>
+                </tr>
+                        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Vale-Cupom</th>
+                <td colspan="3">
+                    @using (Html.BeginForm("CupomDesconto", "Carrinho"))
+                {
+                        <div class="input-group">
+                            <input type="text" id="cupomDesconto" name="cupomDesconto" placeholder="Digite o código promocional" class="form-control" />
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-danger" autocomplete="off">
+                                    Aplicar
+                                </button>
+                            </span>
+                        </div>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>Cep:</th>
+                <td colspan="3">
+                    <div class="input-group">
+                        <input type="text" id="Cep" name="Cep" placeholder="Consulte o cep" class="form-control" />
+                        <span class="input-group-btn">
+                            <button type="button" id="btnPesquisaCep" data-loading-text="Consultando..." class="btn btn-danger" autocomplete="off">
+                                Simular
+                            </button>
+                        </span>
+                    </div>
+                </td>
+                <td id="CepPrazo"></td>
+                <td id="CepValor"></td>
+            </tr>
+            <tr>
+                <th colspan="6" class="text-right text-uppercase">Total:</th>
+                <td class="text-right text-uppercase">
+                    @Html.Hidden("carrinhoTotal", Model.Carrinho.ObterValorTotal())
+                    <span id="valorTotal">@Model.Carrinho.ObterValorTotal().ToString("C")</span>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-right">
+        <a class="btn btn-primary" href="/">Continuar Comprando</a>
+        @Html.ActionLink("Fechar o pedido", "Create", "Pedidos", null, new { @class = "btn btn-warning" })
+    </div>
+                        }
+                        else
+                        {
+                            <h3>Seu Carrinho está vázio</h3>
+                            <a class="btn btn-primary" href="/">Continuar Comprando</a>
+                        }

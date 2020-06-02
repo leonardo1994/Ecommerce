@@ -1,0 +1,85 @@
+﻿@model IList<Produto>
+@using ECommerce.Web.Areas.Admin.Models
+
+@{
+    Layout = null;
+}
+
+<br />
+
+@{
+    string search = ViewBag.Search;
+}
+
+<div class="row">
+    <div class="col-md-12 well well-sm">
+        <b class="text-left">Busca por: @search</b>
+    </div>
+</div>
+
+@{
+    if (Model != null && Model.Any())
+    {
+        var contador = 0;
+        foreach (var item in Model)
+        {
+            if (contador == 0)
+            {
+                @:<div class="row">
+            }
+
+            contador += 1;
+
+            <div id="div-vitrine" class="col-md-3">
+                @Html.Partial("PartialProduto", item)
+            </div>
+            if (contador != 4)
+            {
+                continue;
+            }
+            contador = 0;
+            @:</div>
+        }
+    }
+    else
+    {
+        <div id="div-vitrine" class="col-md-12">
+            <h2>Nenhum item encontrado.</h2>
+        </div>
+    }
+}
+<div class="row text-center">
+    <div class="col-md-12">
+        <nav aria-label="...">
+            <ul class="pagination">
+                @if (ViewBag.HasPreviousPage)
+            {
+                    <li><a href="/?pagina=1&search=@search" aria-label="Primeiro"><span aria-hidden="true">&laquo;</span></a></li>
+                }
+                else
+                {
+                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                }
+                @for (var i = 1; i < ViewBag.PageCount + 1; i++)
+            {
+                if (ViewBag.PageNumber == i)
+                {
+                        <li class="active"><a href="/?pagina=@i&search=@search">@i <span class="sr-only">(current)</span></a></li>
+                    }
+                    else
+                    {
+                        <li><a href="/?pagina=@i&search=@search">@i</a></li>
+                    }
+                }
+                @if (ViewBag.HasNextPage)
+            {
+                    <li class=""><a href="/?pagina=@ViewBag.PageCount&search=@search" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a></li>
+                }
+                else
+                {
+                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="glyphicon glyphicon-cog"></li>
+                <li>
+                    @Html.ActionLink("Área restrita", "Index", "Admin", new { Area = "Admin" }, new { })
+                </li>
+            }
+            <li class="glyphicon glyphicon-folder-open"></li>
+            <li>@Html.ActionLink("Meus Pedidos", "Index", "Pedidos")</li>
+            <li class="glyphicon glyphicon-home"></li>
+            <li>
+                <strong>@Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Clique para acessar seu cadastro" })</strong>
+            </li>
+            <li>@Html.ActionLink("Meu Cadastro", "Details", "Clientes")</li>
+            <li class="glyphicon glyphicon-log-out"></li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">Sair</a>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="glyphicon glyphicon-user"></li>
+        <li>@Html.ActionLink("Cadastre-se", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li class="glyphicon glyphicon-log-in"></li>
+        <li>@Html.ActionLink("Entre", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

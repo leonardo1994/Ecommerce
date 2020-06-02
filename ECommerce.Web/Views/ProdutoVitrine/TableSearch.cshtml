@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ECommerce.Web.Controllers.ViewSearch>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tamanho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Imagem" style="width: 100px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tamanho)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+                <td>
+                    @Html.ActionLink("Comprar", "DetailsMontadoId", "ProdutoVitrine", new { id = item.Codigo }, new { @class = "btn btn-md btn-primary" })
+                </td>
+            </tr>
+        }
+        <tfoot>
+            <tr>
+                <td colspan="7">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            @if (ViewBag.HasPreviousPage)
+                            {
+                                <li><a href="#" onclick="ReloadGridSearch('1')" aria-label="Primeiro"><span aria-hidden="true">&laquo;</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            }
+                            @for (int i = 1; i < ViewBag.PageCount + 1; i++)
+                            {
+                                if (ViewBag.PageNumber == i)
+                                {
+                                    <li class="active"><a href="#" onclick="ReloadGridSearch('@i')">@i<span class="sr-only">(current)</span></a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="#" onclick="ReloadGridSearch('@i')">@i</a></li>
+                                }
+                            }
+                            @if (ViewBag.HasNextPage)
+                            {
+                                <li class=""><a href="#" onclick="ReloadGridSearch('@ViewBag.PageCount')" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a></li>
+                            }
+                            else
+                            {
+                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&raquo;</span></a></li>
+                            }
+                        </ul>
+                    </nav>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+else
+{
+    <div class="text-center" style="margin: auto;">
+        <h3 class="text-info text-center">Nenhum resultado encontrado</h3>
+        <h4 class="text-muted text-center">tente novamente.</h4>
+    </div>
+}

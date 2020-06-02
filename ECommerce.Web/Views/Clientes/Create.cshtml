@@ -1,0 +1,50 @@
+﻿@using ECommerce.Web.Areas.Admin.Helpers
+@model ECommerce.Web.Models.ClienteViewModels
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Dados Cadastrais</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" id="form-cliente">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.EditFor(model => model.Nome)
+        @Html.EditFor(model => model.Cpf)
+        @Html.DatePickerFor(model => model.DataNascimento, null)
+        @Html.EnumDropDownList(model => model.Sexo)
+        @Html.EditFor(model => model.DddFixo)
+        @Html.EditFor(model => model.TelefoneFixo)
+        @Html.EditFor(model => model.DddCelular)
+        @Html.EditFor(model => model.TelefoneCelular)
+        @Html.EditFor(model => model.Cep)
+        @Html.EditFor(model => model.Rua)
+        @Html.EditFor(model => model.Numero)
+        @Html.EditFor(model => model.Complemento)
+        @Html.EditFor(model => model.Bairro)
+        @Html.EditFor(model => model.Cidade)
+        @Html.EnumDropDownList(model => model.Estado)
+        @Html.EditFor(model => model.Email, "", true)
+        @Html.HiddenFor(model => model.Email)
+        @Html.HiddenFor(model => model.ApplicationUserId)
+        @Html.HiddenFor(model => model.Ibge)
+
+        <div class="row">
+            @Html.Button(TypeHtmlButton.Submit, new { value = "Salvar", @class = "btn btn-primary" })
+        </div>
+    </div>
+}
+
+@Html.ActionLink("Voltar", "Index", "Manage")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

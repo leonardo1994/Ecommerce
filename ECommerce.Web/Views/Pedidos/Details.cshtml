@@ -1,0 +1,179 @@
+﻿@model ECommerce.Web.Models.EntPedido.Pedido
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pedido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CpfCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CpfCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataEmissao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataEmissao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendedorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendedorId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorPedido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorPedido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumPedidoCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumPedidoCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PagamentoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PagamentoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormaPagamentoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormaPagamentoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PercenComissao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PercenComissao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoCondPagto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoCondPagto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransportadoraId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransportadoraId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorFrete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorFrete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Endereco)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Endereco)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bairro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bairro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Uf)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uf)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Complemento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Complemento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ibge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ibge)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

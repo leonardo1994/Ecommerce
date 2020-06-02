@@ -1,0 +1,32 @@
+﻿@model IList<Produto>
+@using ECommerce.Web.Areas.Admin.Models
+
+@{ 
+    Layout = null;
+}
+
+@{
+    if (Model != null && Model.Any())
+    {
+        var contador = 0;
+        foreach (var item in Model)
+        {
+            if (contador == 0)
+            {
+                @:<div class="row">
+              }
+
+            contador += 1;
+
+            <div id="div-vitrine" class="col-md-3">
+                @Html.Partial("PartialProduto", item)
+            </div>
+            if (contador != 4)
+            {
+                continue;
+            }
+            contador = 0;
+            @:</div>
+        }
+    }
+}

@@ -1,0 +1,90 @@
+﻿@using ECommerce.Web.Areas.Admin.Helpers
+@model IEnumerable<ECommerce.Web.Areas.Admin.Models.Promocao>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Promoções</h2>
+
+<p>
+    @Html.ActionLink("Criar novo", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraInicial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HoraFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TodosItens)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publicar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ativo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    <img class="img-rounded img-responsive" src="@item.Imagem" alt="" style="max-height:150px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataInicial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraInicial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataFinal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoraFinal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TodosItens)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publicar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ativo)
+                </td>
+                <td>
+                    @Html.Button(TypeHtmlButton.Table, new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

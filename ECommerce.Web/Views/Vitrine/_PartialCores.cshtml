@@ -1,0 +1,14 @@
+﻿@model IList<ProdutoCor>
+@using ECommerce.Web.Areas.Admin.Models
+
+@foreach (var item in Model)
+{
+    if (Model.IndexOf(item) == 0)
+    {
+        <button class="btn active" style="background-color: @item.Cor.Hexadecimal; border-color: black;"></button>
+    }
+    else
+    {
+        <button class="btn" style="background-color: @item.Cor.Hexadecimal"></button>
+    }
+}

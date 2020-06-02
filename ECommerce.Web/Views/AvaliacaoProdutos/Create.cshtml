@@ -1,0 +1,105 @@
+﻿@model ECommerce.Web.Areas.Admin.Models.AvaliacaoProduto
+
+@{
+    Layout = null;
+}
+
+@if (Request.IsAuthenticated)
+{
+    <div style="width: 70%; margin:auto;">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", placeholder = "Digite um título", @required = "required" } })
+                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
+                <div class="row text-center">
+                    <h3>Defina uma nota de 1 a 5</h3>
+                    <div data-toggle="buttons">
+                        <div class="btn-group btn-group-lg">
+                            <label class="btn btn-danger btn-lg">
+                                <input type="radio" name="Nota" id="Nota" value="1" class="sr-only" required>Nota 1
+                            </label>
+                            <label class="btn btn-warning btn-lg">
+                                <input type="radio" name="Nota" id="Nota" value="2" class="sr-only" required>Nota 2
+                            </label>
+                            <label class="btn btn-info btn-lg">
+                                <input type="radio" name="Nota" id="Nota" value="3" class="sr-only" required>Nota 3
+                            </label>
+                            <label class="btn btn-primary btn-lg">
+                                <input type="radio" name="Nota" id="Nota" value="4" class="sr-only" required>Nota 4
+                            </label>
+                            <label class="btn btn-success btn-lg">
+                                <input type="radio" name="Nota" id="Nota" value="5" class="sr-only" required>Nota 5
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group text-center">
+                    <h3>Recomendaria este produto ?</h3>
+                    <div class="col-md-12">
+                        @Html.EnumDropDownListFor(model => model.Recomendaria, htmlAttributes: new { @class = "form-control", placeholder = "Recomendaria este produto ?" })
+                        @Html.ValidationMessageFor(model => model.Recomendaria, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group text-center">
+                    <h3>Defina um tipo ?</h3>
+                    <div class="col-md-12">
+                        @Html.EnumDropDownListFor(model => model.Tipo, htmlAttributes: new { @class = "form-control", placeholder = "Tipo ?" })
+                        @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Opniao, new { @class = "form-control", placeholder = "Escreva uma opnião", @required = "required" })
+                        @Html.ValidationMessageFor(model => model.Opniao, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(model => model.Data)
+                @Html.HiddenFor(model => model.ProdutoMontadoId)
+                @Html.HiddenFor(model => model.ApplicationUserId)
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="submit" value="Enviar" class="btn" style="width: 100%;" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="row" style="width:70%; margin:auto;">
+        @{
+            var url = "";
+            if (string.IsNullOrEmpty(ViewBag.ReturnUrl))
+            {
+                url = Request.RawUrl;
+            }
+            else
+            {
+                url = ViewBag.ReturnUrl;
+            }
+        }
+        @Html.ActionLink("Faça o login para avaliar", "Login", "Account", new { returnUrl = url }, new { @class = "btn btn-lg btn-success" })
+    </div>
+            }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

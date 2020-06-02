@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ECommerce.Web.Controllers.AvaliacaoViewModel>
+
+@{
+    Layout = null;
+}
+
+<div class="text-center">
+    @if (!Model.Any())
+    {
+        <h1>Seja o primeiro a opinar!</h1>
+    }
+    else
+    {
+        <h3>Confira o que o pessoal acha deste produto.</h3>
+    }
+</div>
+
+<div class="table-responsive" style="height: 200px;overflow: scroll;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Avaliações</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="font-size: 10px; line-height: 12px;">
+                        <p><span><b>@item.Tipo: </b></span> <span class="text"><bold>@item.Titulo</bold></span></p>
+                        <p><span class="text-success">@item.Data.ToShortDateString()</span> enviado por: <span class="text-success">@item.Cliente</span> Recomendaria este produto? <span class="text-success">@item.Recomendaria</span></p>
+                        <p>@item.Opniao</p>
+                    </td>
+                    <td>
+                        @for (int i = 0; i < item.Nota; i++)
+                        {
+                            <i class="glyphicon glyphicon-star" style="font-size: 15px; color:#ffd800;"></i>
+                        }
+                        <br />
+                        @item.Nota Estrelas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

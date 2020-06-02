@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Inicial";
+}
+
+@section Categorias{
+    <div class="container" id="categorias">
+        @{
+            Html.RenderAction("Index", "Categorias");
+        }
+    </div>
+}
+
+@if (ViewBag.CategoriaId == null && ViewBag.Search == null && ViewBag.PromocaoId == null)
+{
+    <div class="row">
+        <div class="col-lg-12" id="slidePromotionHome">
+            @{
+                Html.RenderAction("SlidePromotion", "Promotions", new { area = "Admin" });
+            }
+        </div>
+    </div>
+    <br />
+    <div class="row well well-sm">
+        <h4>Mais Vendidos</h4>
+    </div>
+
+                Html.RenderAction("MaisVendido", "ProdutoVitrine");
+
+
+                <div class="row well well-sm">
+                    <h4>Mais Visitados</h4>
+                </div>
+
+                Html.RenderAction("MaisVisitado", "ProdutoVitrine");
+
+
+                <hr />
+                }
+@{
+    Html.RenderAction("Index", "ProdutoVitrine", new { pagina = ViewBag.Pagina, categoriaId = ViewBag.CategoriaId, subCategoriaId = ViewBag.SubCategoriaId, search = ViewBag.Search, promocaoId = ViewBag.PromocaoId });
+}

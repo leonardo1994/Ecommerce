@@ -1,0 +1,24 @@
+﻿@model ECommerce.Web.Models.EntCarrinho.AvisoDisponibilidade
+
+@{
+    Layout = null;
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">Informe um e-mail, para informamos quando este produto estiver disponível</div>
+        <div class="modal-body" id="EnviarEmailDisponivel">
+            @Html.HiddenFor(model => model.ProdutoMontadoId)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Informe um e-mail", @required = "required" })
+            <br />
+            <input type="button" value="Avise-me" onclick="EnviarEmail('/ProdutoVitrine/EnviarEmail')" class="btn btn-success btn-lg" />
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

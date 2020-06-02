@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ECommerce.Web.Areas.Admin.Models.Promocao>
+
+@if (Model.Any())
+{
+    <div id="promotions" class="carousel slide" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+            @foreach (var item in Model)
+            {
+                var _class = "";
+                if (Model.ToList().IndexOf(item) == 0)
+                {
+                    _class = "active";
+                }
+                <li data-target="#promotions" data-slide-to="@Model.ToList().IndexOf(item)" class="@_class indicators"></li>
+            }
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+            @foreach (var item in Model)
+            {
+                var _class = "";
+                if (Model.ToList().IndexOf(item) == 0)
+                {
+                    _class = "active";
+                }
+                <div class="item @_class">
+                    @{
+                        var href = "";
+                        if (item.PromocaoItems.Any())
+                        {
+                            href = "/?promocaoId=" + item.Id;
+                        }
+                        else
+                        {
+                            href = "#";
+                        }
+                    }
+                    <a href="@href">
+                        @{
+                            var idCronometro = "promocao" + item.Id;
+                            var imagem = "http://www.famaraonline.com.br" + item.Imagem;
+                        }
+                        <img src="@imagem" class="img-responsive">
+                        @{
+                            var inicial = DateTime.Now;
+                            var final = new DateTime(item.DataFinal.Year, item.DataFinal.Month, item.DataFinal.Day, item.HoraFinal.Hour,
+                                item.HoraFinal.Minute, item.HoraFinal.Second);
+                            var segundo = (final - inicial).TotalSeconds;
+                        }
+                    </a>
+                    @if (item.TipoExibicao == ECommerce.Web.Areas.Admin.Models.TipoDeExibicao.Topo)
+                    {
+                        <div class="text-center" id="div-sessao">Promoção encerra em: <span id="sessao" control-value="@segundo.ToString().Replace(',','.')" class="text-success"></span></div>
+                    }
+                    <div class="carousel-caption">
+                        <p>@item.Descricao</p>
+                    </div>
+                </div>
+                            }
+        </div>
+
+        <a class="left carousel-control" href="#promotions" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left buttonNextPrevious" aria-hidden="true"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="right carousel-control" href="#promotions" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right buttonNextPrevious" aria-hidden="true"></span>
+            <span class="sr-only">Próximo</span>
+        </a>
+    </div>
+                            }

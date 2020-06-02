@@ -1,0 +1,196 @@
+﻿@model IEnumerable<ECommerce.Web.Models.EntPedido.Pedido>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Meus Pedidos</h2>
+<br />
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<table id="Pedidos" class="display table table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr class="info">
+            <td></td>
+            <td>N do Pedido</td>
+            <td>Data do Pedido</td>
+            <td>Valor Total</td>
+            <td>Forma de Pagamento</td>
+            <td>Cód. de Rastreamento</td>
+            <td>Status</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pedido in Model)
+        {
+            <tr>
+                @{
+                    var collapse = "Ref" + pedido.Id;
+                    var collapseRef = "#Ref" + pedido.Id;
+                }
+                <td>
+                    <a href="@collapseRef" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="@collapse">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </a>
+                </td>
+                <td>@pedido.Id</td>
+                <td>@pedido.DataEmissao.ToShortDateString()</td>
+                <td>@pedido.ValorPedido.ToString("C")</td>
+                <td>
+                    @pedido.Parcelamento
+                    @pedido.PagSeguroPgtoDescricao
+                    @if (pedido.FormaPagamentoId == "01" && pedido.StatusCode == "1")
+                    {
+                        <p class="text-success">Se não efetuou o pagamento <a href="@pedido.LinkPagamento" target="_blank">clique aqui</a></p>
+                        <p class="text-muted">Para emissão de 2º via acesse sua conta no PagSeguro pelo código da transação : @pedido.CodigoTransacao</p>
+                    }
+                    else if (pedido.CodigoTransacao == null && pedido.StatusCode == "1")
+                    {
+                        <a href="@pedido.UrlPagamento" target="_blank">
+                            Pagamento não concluído, clique aqui para continuar. (Se já efetuou o pagamento desconsidere
+                            está mensagem, aguarde a aprovação do mesmo.)
+                        </a>
+                    }
+                    else if (pedido.StatusCode == "0")
+                    {
+                        <a href="@pedido.UrlPagamento" target="_blank">
+                            Pagamento não concluído, clique aqui para continuar. (Se já efetuou o pagamento desconsidere
+                            está mensagem, aguarde a aprovação do mesmo.)
+                        </a>
+                    }
+                </td>
+                <td>Acesse o link para rastrear seu pedido, pelo correios: 
+                <a href="http://www2.correios.com.br/sistemas/rastreamento/default.cfm" target="_blank">Clique Aqui</a></td>
+                <td>@pedido.StatusDescricao</td>
+                @if (pedido.StatusCode == "1" || pedido.StatusCode == "0" || pedido.StatusCode == "2")
+                {
+                    <td>@Html.ActionLink("Cancelar Pedido", "CancelamentoPedido", "Pedidos", new { pedidoId = pedido.Id }, new { @class = "btn btn-danger" })</td>
+                }
+            </tr>
+            <tr id="@collapse" class="collapse">
+                <td colspan="6">
+                    <div style="display:inline-block;width:100%;">
+                        <ul class="timeline timeline-horizontal">
+                            <li class="timeline-item">
+                                <div class="timeline-badge success">
+                                    <i class="glyphicon glyphicon-check"></i>
+                                    <span>Pedido Efetuado</span>
+                                </div>
+                            </li>
+                            <li class="timeline-item">
+                                @{ var class1 = pedido.StatusCode == "3" ? "success"
+   : pedido.StatusCode == "7" ? "danger"
+   : pedido.StatusCode == "2" ? "info"
+   : "";}
+                                <div class="timeline-badge @class1 ">
+                                    @if (pedido.StatusCode == "3")
+                                    {
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    }
+                                    else if (pedido.StatusCode == "7")
+                                    {
+                                        <i class="glyphicon glyphicon-ban-circle"></i>
+                                    }
+                                    else if (pedido.StatusCode == "2")
+                                    {
+                                        <i class="glyphicon glyphicon-time"></i>
+                                    }
+                                    else if (pedido.StatusCode == "1" || pedido.StatusCode == "0")
+                                    {
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+
+                                    }
+                                    <span>@pedido.StatusDescricao</span>
+                                </div>
+                            </li>
+                            <li class="timeline-item">
+                                @{ var class2 = pedido.StatusCode == "100" ? "success"
+   : "";}
+                                <div class="timeline-badge @class2 ">
+                                    @if (pedido.StatusCode == "100")
+                                    {
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    }
+                                    <span>Separação do Produto</span>
+                                </div>
+                            </li>
+                            <li class="timeline-item">
+                                @{ var class3 = pedido.StatusCode == "200" ? "success"
+   : "";}
+                                <div class="timeline-badge @class3 ">
+                                    @if (pedido.StatusCode == "200")
+                                    {
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    }
+                                    <span>Emissão de Nota Fiscal</span>
+                                </div>
+                            </li>
+                            <li class="timeline-item">
+                                @{ var class4 = pedido.StatusCode == "300" ? "success"
+   : "";}
+                                <div class="timeline-badge @class3 ">
+                                    @if (pedido.StatusCode == "300")
+                                    {
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    }
+                                    <span>Pedido em Transporte</span>
+                                </div>
+                            </li>
+                            <li class="timeline-item">
+                                @{ var class5 = pedido.StatusCode == "400" ? "success"
+   : "";}
+                                <div class="timeline-badge @class3 ">
+                                    @if (pedido.StatusCode == "400")
+                                    {
+                                        <i class="glyphicon glyphicon-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="glyphicon glyphicon-unchecked"></i>
+                                    }
+                                    <span>Pedido Entregue</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td>Produto</td>
+                                <td>Quantidade</td>
+                                <td>Valor Unitário</td>
+                                <td>Valor Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in pedido.ItensPedido)
+                            {
+                                <tr>
+                                    <td><img src="@item.ProdutoMontado.ProdutoCor.ProdutoImagens?.First()?.Imagem" width="50px;" /></td>
+                                    <td>@item.ProdutoMontado.Descricao</td>
+                                    <td>@item.Quantidade</td>
+                                    <td>@item.ValorUnitario.ToString("C")</td>
+                                    <td>@item.ValorTotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+                                    }
+    </tbody>
+</table>

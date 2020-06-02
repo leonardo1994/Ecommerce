@@ -1,0 +1,22 @@
+﻿@model IList<Produto>
+@using ECommerce.Web.Areas.Admin.Models
+
+@foreach (var item in Model)
+{
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">@Html.Partial("_PartialDescricao", item.Descricao)</div>
+            <div class="panel panel-body">
+                @Html.Partial("_PartialImagem", item.ProdutoTamanhos.First().ProdutoCores.First().ProdutoImagens)
+            </div>
+            <div class="panel-footer">
+                <div>
+                    @Html.Partial("_PartialCores", item.ProdutoTamanhos.First().ProdutoCores)
+                </div>
+                <div>
+                    @Html.Partial("_PartialTamanhos", item.ProdutoTamanhos)
+                </div>
+            </div>
+        </div>
+    </div>
+}

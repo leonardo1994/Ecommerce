@@ -1,0 +1,98 @@
+﻿@model ECommerce.Web.Models.IndexViewModel
+@{
+    ViewBag.Title = "Gerenciar";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Alterar as definições da sua conta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Senha:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Mude sua senha", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Criar", "SetPassword")
+            }
+            ]
+        </dd>
+
+        @*
+                <dt>Logins externos:</dt>
+                <dd>
+                @Model.Logins.Count [
+                @Html.ActionLink("Gerenciar", "ManageLogins") ]
+            </dd>
+
+                Os números de telefone podem ser usados como um segundo fator de verificação em um sistema de autenticação de dois fatores.
+                Consulte <a href="http://go.microsoft.com/fwlink/?LinkId=403804"> este artigo </a>
+                Para obter detalhes sobre a configuração deste aplicativo ASP.NET para oferecer suporte a autenticação de dois fatores usando o SMS.
+                Descomente o bloco a seguir depois de configurar a autenticação de dois fatores
+
+                <dt>Número de telefone:</dt>
+                <dd>
+                    @(Model.PhoneNumber ?? "None")
+                    @if (Model.PhoneNumber != null)
+                    {
+                        <br />
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("mudança", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                        using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>[<input type="submit" value="Remover" class="btn-link" />]</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")</text>
+                    }
+                </dd>
+
+                <dt>Autenticação de dois fatores:</dt>
+                <dd>
+                    <p>
+                        Não há provedores de autenticação de dois fatores configurados. Consulte <a href="http://go.microsoft.com/fwlink/?LinkId=403804"> este artigo </a>
+                        Para obter detalhes sobre a configuração deste aplicativo ASP.NET para oferecer suporte a autenticação de dois fatores.
+                    </p>
+                    @if (Model.TwoFactor)
+                    {
+                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>Ativo
+                                <input type="submit" value="Desativar" class="btn btn-link" />
+                            </text>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>Desativado
+                                <input type="submit" value="Ativar" class="btn btn-link" />
+                            </text>
+                        }
+                    }
+                </dd>
+        *@
+        <dt>Dados Cadastrais:</dt>
+        @if (Model.Cliente == null)
+        {
+            <dd>[@Html.ActionLink("Acessar", "Create", "Clientes")]</dd>
+        }
+        else
+        {
+            <dd>[@Html.ActionLink("Acessar", "Details", "Clientes")]</dd>
+        }
+        <dt>Meus Pedidos:</dt>
+        <dd>[@Html.ActionLink("Acessar", "Index", "Pedidos")]</dd>
+    </dl>
+</div>

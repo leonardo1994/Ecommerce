@@ -1,0 +1,25 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Ops!";
+}
+
+<h1 class="text-danger text-center">Ops!</h1>
+<h2 class="text-danger text-center">Não foi possível concluir sua solitação, tente novamente mais tarde.</h2>
+<div class="text-center" style="margin:auto; width:70%;">
+    <img src="http://www.logoselevadores.com.br/Images/manutencao-elevadores-rj-32.png" class="img-responsive" />
+</div>
+
+
+<ul class="alert-warning">
+    <li>@Model.ActionName</li>
+    <li>@Model.ControllerName</li>
+    <li>@Model.Exception.Message</li>
+    <li>@Model.Exception.StackTrace</li>
+    @if (Model.Exception.InnerException != null)
+    {
+        <li>@Model.Exception.InnerException.Message</li>
+    }
+</ul>
+
+

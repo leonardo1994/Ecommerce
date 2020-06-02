@@ -1,0 +1,143 @@
+﻿@model ECommerce.Web.Models.EntPedido.Pedido
+@using ECommerce.Web.Models.EntCarrinho
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_LayoutPagamento.cshtml";
+}
+
+
+<div class="well well-sm">
+    <div class="col-sm-2" style="padding: 2px;">
+        <a href="/"><img src="http://www.famaraonline.com.br/img/LogoFamaraONLINE.JPG" alt="" style="width: 100%;" /></a>
+    </div>
+    <h4 class="text-center">Fechamento de Pedido</h4>
+</div>
+
+<div class="row">
+    @Html.Raw(MvcHtmlString.Create(Server.HtmlDecode(Html.ValidationSummary(true, "", new { @class = "alert-danger" }).ToHtmlString())).ToHtmlString())
+</div>
+
+@if (ViewBag.TotalItens > 0)
+{
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>Resume do Pedido</legend>
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            @{
+                                var qtd = ViewBag.TotalItens;
+                                var texto = qtd == 1 ? "item" : "itens";
+                                var total = Model.ValorPedido;
+                            }
+                            <td>Total em produtos (@qtd @texto)</td>
+                            <td>
+                                @Html.Hidden("carrinhoTotal", total)
+                                @Model.ValorPedido.ToString("C")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Prazo de entrega</td>
+                            <td id="CepPrazo2">@ViewBag.PrazoEntrega</td>
+                        </tr>
+                        <tr>
+                            <td>Frete:</td>
+                            @Html.HiddenFor(model => model.ValorFrete)
+                            <td id="CepValor2">@Model.ValorFrete.ToString("C")</td>
+                        </tr>
+                        <tfoot>
+                            <tr>
+                                <td>Total Pedido:</td>
+                                <td id="valorTotal">@total.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </fieldset>
+            </div>
+
+            @Html.HiddenFor(c => c.ClienteId)
+
+            <div class="col-md-5">
+                @{
+                    Html.RenderAction("DetailsPartial", "Clientes", new { id = Model.ClienteId, returnUrl = "/Checkout" });
+                }
+            </div>
+            <div class="col-md-3">
+                <fieldset>
+                    <legend>Endereço de Entrega</legend>
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin: 1%;">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.Cep, new { @class = "form-control", placeholder = "Cep" })
+                                <span class="input-group-btn">
+                                    <button type="button" id="btnPesquisaCep" data-loading-text="Consultando..." class="btn btn-danger" autocomplete="off">
+                                        Pesquisar
+                                    </button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Endereco, new { @class = "form-control", placeholder = "Endereco" })
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Numero, new { @class = "form-control", placeholder = "Número" })
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Bairro, new { @class = "form-control", placeholder = "Bairro" })
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Cidade, new { @class = "form-control", placeholder = "Cidade" })
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Uf, new { @class = "form-control", placeholder = "UF" })
+                        </div>
+                        <div class="form-group" style="margin: 1%;">
+                            @Html.TextBoxFor(model => model.Complemento, new { @class = "form-control", placeholder = "Complemento" })
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <br />
+            @Html.HiddenFor(model => model.Ibge)
+            <div class="form-group">
+                <div class="col-md-offset-9 col-md-3">
+                    @Html.ActionLink("Cancelar", "CarrinhoDeCompras", "Carrinho", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-9 col-md-3">
+                    <input id="btn-comprar" onclick="DisplayWait();" type="submit" value="Finalizar Pedido" class="btn btn-success" />
+                </div>
+            </div>
+
+        </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="form-group text-center">
+                            <div class="alert alert-warning">
+                                <h2>Não foi possível carregar seu pedido, aperte F5 ou pressione um dos botões abaixo.</h2>
+                            </div>
+
+                            <br />
+                            <div class="col-md-offset-3 col-md-6">
+                                @Html.ActionLink("Clique aqui para tentar novamente ou aperte F5", "Create", "Pedidos", null, new { @class = "btn btn-primary btn-lg" })
+                                <br />
+                                <br />
+                                @Html.ActionLink("Voltar para o carrinho de compras", "CarrinhoDeCompras", "Carrinho", null, new { @class = "btn btn-danger btn-lg" })
+                            </div>
+                        </div>
+                    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

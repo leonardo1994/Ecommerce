@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ECommerce.Web.Areas.Admin.Models.Categoria>
+
+@{
+    Layout = null;
+}
+
+<nav class="navbar navbar-default menu-categoria menu-categoria-2">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-categoria-navbar-collapse-2" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-categoria-navbar-collapse-2">
+            <ul class="nav navbar-nav nav-categoria-2">
+                @foreach (var item in Model.ToList().Where(c => c.Publicar == "S"))
+                {
+                    <li class="dropdown dropdown-categoria dropdown-categoria-2">
+                        <a href="/?categoriaId=@item.Id" class="dropdown-toggle text-center" data-toggle="dropdown">
+                            <img class="icon-categoria text-center" src="@item.Icone" alt=""/>
+                            <strong>@item.Descricao</strong>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-item-right">
+                            @if (item.SubCategorias != null)
+                            {
+                                foreach (var subItem in item.SubCategorias.ToList().Where(c => c.Publicar == "S"))
+                                {
+                                    <li>
+                                        @Html.ActionLink(subItem.Descricao, "Categoria", "ProdutoVitrine", new { subCategoriaId = subItem.Id, categoriaId = item.Id }, null)
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

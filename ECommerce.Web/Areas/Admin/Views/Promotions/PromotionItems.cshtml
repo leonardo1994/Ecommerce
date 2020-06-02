@@ -1,0 +1,70 @@
+﻿@using ECommerce.Web.Areas.Admin.Helpers
+@model IEnumerable<ECommerce.Web.Areas.Admin.Models.PromocaoItem>
+
+<div id="msg" class="alert alert-danger hide"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-5">
+                @Html.Label("Produto")
+                @Html.DropDownList("ProdutoMontadoId", null, htmlAttributes: new {@class = "form-control chosen-select"}, optionLabel: " ")
+            </div>
+            <div class="col-md-5">
+                @Html.Label("Tabela de Preço")
+                @Html.DropDownList("TabelaDePrecoId", null, htmlAttributes: new {@class = "form-control chosen-select" }, optionLabel: " ")
+            </div>
+            <div class="col-md-2">
+                @{
+                    var urlInsert = "'" + Url.Action("InsertItemPromotion") + "'";
+                }
+                @Html.Label(" ")
+                @Html.Button(TypeHtmlButton.Button, new {value = "Incluir", @class = "btn btn-lg btn-primary", onClick = "InsertItemPromotion(" + urlInsert + ")"})
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    Código
+                </th>
+                <th>
+                    Produto
+                </th>
+                <th>
+                    Tabela de Preço
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProdutoMontado.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProdutoMontado.Descricao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TabelaDePreco.Id)
+                        </td>
+                        <td>
+                            @{
+                                var id = Model.ToList().IndexOf(item);
+                                var urlDelete = "'" + Url.Action("DeleteItemPromotion") + "'";
+                            }
+                            <input id="id" name="id" value="@id" type="hidden"/>
+                            @Html.Button(TypeHtmlButton.Button, new {value = "Remover", @class = "btn btn-danger", onClick = "RemoveItemPromotion(" + urlDelete + "," + id + ")"})
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famara Online</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.css" integrity="sha256-dqPXSfyyYAqTDlV0XgwmAeDoFrlHqfNt74YKmxAFL6E=" crossorigin="anonymous" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-static-top menu-principal" data-spy="affix" data-offset-top="10">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-princial">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="menu-princial">
+                <ul class="nav navbar-nav">
+                    <li class="glyphicon glyphicon-home"></li>
+                    <li>@Html.ActionLink("Página inicial", "Index", "Home")</li>
+                    <li class="glyphicon glyphicon-shopping-cart"></li>
+                    <li>@Html.ActionLink("Carrinho de compras", "CarrinhoDeCompras", "Carrinho")</li>
+                    <li class="glyphicon glyphicon-folder-close"></li>
+                    <li>@Html.ActionLink("Fechar Pedido", "Create", "Pedidos")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row" style="margin: auto;">
+            <div class="col-sm-2" style="padding: 2px;">
+                <a href="/"><img src="http://www.famaraonline.com.br/img/LogoFamaraONLINE.JPG" alt="" style="width: 100%;" /></a>
+            </div>
+            <div class="col-md-8" style="padding: 2px;">
+                <div class="input-group" style="margin: auto;">
+                    <input id="input-search" type="text" class="form-control input-md" placeholder="Pesquisar por: produto, marca, modelo ...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning btn-md" type="button" onclick="Search_Click();">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="table-responsive">
+                    <table id="result-search" class="table table-hover table-condensed">
+                        <tr>
+                            <th></th>
+                            <th>Código</th>
+                            <th>Descrição</th>
+                            <th>Valor</th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-2" style="padding: 2px;">
+                @{
+                    Html.RenderAction("BotaoCarrinho", "Carrinho");
+                }
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("Categorias", false)
+
+    <hr class="hr-principal" />
+
+    <div class="container body-content">
+        <div id="wait" style="background-color:white; display:none;width:69px;height:89px;border:1px solid black;position:fixed;top:50%;left:50%;padding:2px;z-index:99999999999;"><img src='/Img/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
+        @RenderBody()
+    </div>
+    <br />
+    <div class="well well-sm">
+        <footer class="container body-content">
+            <div class="row">
+                <div class="col-md-2">
+                    <ul>
+                        <li>
+                            <h4>Institucional</h4>
+                            <ul>
+                                <li><a href="http://www.famara.com.br/conteudos/2/a-empresa.aspx" target="_blank">Sobre a empresa</a></li>
+                                <li><a href="http://www.famara.com.br/blog.aspx" target="_blank">Blog</a></li>
+                                <li><a href="http://www.famara.com.br/downloads.aspx" target="_blank">Catálogos de produtos</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul>
+                        <li>
+                            <h4>Fale conosco</h4>
+                            <ul>
+                                <li><a href="http://www.famara.com.br/contato.aspx" target="_blank">Contato</a></li>
+                                <li>
+                                    Endereço. Rodovia SP. 129 <br />
+                                    Km 14,7 - CEP: 18.550-000
+                                </li>
+                                <li>Telefone. 15 3363.9933</li>
+                                <li>E-mail. famara@famara.com.br <br /> sac@famara.com.br</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <img src="https://stc.pagseguro.uol.com.br/public/img/banners/divulgacao/125x125_10X_pagseguro.gif" alt="Banner PagSeguro" title="Parcele suas compras em até 18x">
+                    <img src="https://stc.pagseguro.uol.com.br/public/img/banners/seguranca/seguranca_125x125.gif" alt="Banner PagSeguro" title="Compre com pagSeguro e fique sossegado">
+                    <img src="https://stc.pagseguro.uol.com.br/public/img/banners/pagamento/todos_animado_125_150.gif" alt="Logotipos de meios de pagamento do PagSeguro" title="Este site aceita pagamentos com as principais bandeiras e bancos, saldo em conta PagSeguro e boleto.">
+                </div>
+            </div>
+            <div class="row text-center">
+                <p>&copy; @DateTime.Now.Year - Famara Online</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal fade modal-pop-up" tabindex="-1" role="dialog" aria-labelledby="myModalPopUp">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                @{
+                    <div class="row">
+                        <div class="col-lg-12" id="slidePromotionHome">
+                            @{
+                                Html.RenderAction("SlidePromotion", "Promotions", new { tipoExibicao = 1, area = "Admin", });
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    @{
+        Html.RenderAction("CupomDesconto", "Promotions", new { tipoExibicao = 2, area = "Admin", });
+    }
+
+    <div class="modal fade modal-pop-up" tabindex="-1" role="dialog" aria-labelledby="myModalPopUp">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @{
+                    <div class="row">
+                        <div class="col-lg-12" id="slidePromotionHome">
+                            @{
+//Html.RenderAction("SlidePromotions", "Promotions", new { tipoExibicao = 1, area = "Admin", });
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.js" integrity="sha256-L4R3B3t5kFOA5eFW0zYsx5hI8ZwopGsuGuxlfI8dhiM=" crossorigin="anonymous"></script>
+    <script src="~/Scripts/jquery.elevateZoom-3.0.8.min.js"></script>
+    <script src="~/Scripts/jquery.elevatezoom.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/custom")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+    </div>
+
+    @if (!Request.IsAuthenticated)
+    {
+        <script type="text/javascript">
+            if (window.location.pathname == "/" || window.location.pathname == "/Home/" || window.location.pathname == "/Home/Index" || window.location.pathname == "/Home/Index/") {
+                if ($.cookie('modal_shown') == null) {
+                    var date = new Date();
+                    var minutes = 1;
+                    date.setTime(date.getTime() + (minutes * 60 * 1000));
+                    $.cookie('modal_shown', 'yes', { expires: date, path: '/' });
+                    $('#myModalCupom').modal('show');
+                }
+            }
+        </script>
+    }
+</body>
+</html>

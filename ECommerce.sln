@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Web", "ECommerce.Web\ECommerce.Web.csproj", "{D8A1F373-50D6-4D54-A3EA-86EFC6210BF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Web.Tests", "ECommerce.Web.Tests\ECommerce.Web.Tests.csproj", "{CBEE3D89-323E-4A26-9A5D-EDFA5919580F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uol.PagSeguro", "Uol.PagSeguro\Uol.PagSeguro.csproj", "{BABC5658-6AFD-4F8E-81F1-434553663D99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService", "WindowsService\WindowsService.csproj", "{1642F254-B94B-4024-B3F6-EAE15234CC1D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8A1F373-50D6-4D54-A3EA-86EFC6210BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A1F373-50D6-4D54-A3EA-86EFC6210BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A1F373-50D6-4D54-A3EA-86EFC6210BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A1F373-50D6-4D54-A3EA-86EFC6210BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBEE3D89-323E-4A26-9A5D-EDFA5919580F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBEE3D89-323E-4A26-9A5D-EDFA5919580F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBEE3D89-323E-4A26-9A5D-EDFA5919580F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBEE3D89-323E-4A26-9A5D-EDFA5919580F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BABC5658-6AFD-4F8E-81F1-434553663D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BABC5658-6AFD-4F8E-81F1-434553663D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BABC5658-6AFD-4F8E-81F1-434553663D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BABC5658-6AFD-4F8E-81F1-434553663D99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1642F254-B94B-4024-B3F6-EAE15234CC1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1642F254-B94B-4024-B3F6-EAE15234CC1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1642F254-B94B-4024-B3F6-EAE15234CC1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1642F254-B94B-4024-B3F6-EAE15234CC1D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://esrsoftwares.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ECommerce.Web.Tests\\ECommerce.Web.Tests.csproj
+		SccProjectName1 = ECommerce.Web.Tests
+		SccLocalPath1 = ECommerce.Web.Tests
+		SccProjectUniqueName2 = ECommerce.Web\\ECommerce.Web.csproj
+		SccProjectName2 = ECommerce.Web
+		SccLocalPath2 = ECommerce.Web
+		SccProjectUniqueName3 = Uol.PagSeguro\\Uol.PagSeguro.csproj
+		SccProjectName3 = Uol.PagSeguro
+		SccLocalPath3 = Uol.PagSeguro
+		SccProjectUniqueName4 = WindowsService\\WindowsService.csproj
+		SccProjectName4 = WindowsService
+		SccLocalPath4 = WindowsService
+	EndGlobalSection
+EndGlobal

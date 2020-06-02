@@ -1,0 +1,305 @@
+﻿@model ECommerce.Web.Areas.Admin.Models.ProdutoMontado
+@using ECommerce.Web.Areas.Admin.Models
+@using ECommerce.Web.HtmlHelpers
+
+@section Categorias{
+<div class="container" id="categorias">
+    @{
+    Html.RenderAction("Index", "Categorias");
+    }
+</div>
+}
+
+<div id="produtoDetails" class="row jumbotron">
+    <div class="col-md-6 text-center">
+        @Html.IconPromocao(Model.Produto, Model.Id)
+        <div class="img-principal">
+            @if (Model.ProdutoCor.ProdutoImagens.FirstOrDefault().TipoArquivo == ECommerce.Web.Areas.Admin.Models.TipoArquivo.Imagem)
+            {
+            var prodImagem = Model.ProdutoCor.ProdutoImagens.FirstOrDefault();
+            var imagem = "http://www.famaraonline.com.br" + prodImagem.Imagem;
+            var imagem2 = "http://www.famaraonline.com.br" + prodImagem.Imagem2;
+
+            <img id="img-principal" class="img-show img-responsive" src="@imagem" data-zoom-image="@imagem2" />
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">@Model.Descricao</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img id="img-principal" src="@imagem" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            }
+            else
+            {
+            <video id="img-principal" autoplay>
+                <source src="Model.ProdutoCor.ProdutoImagens.FirstOrDefault().Imagem" type="video/mp4">
+            </video>
+            }
+        </div>
+        <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-sm" id="btn-img-ampliada col-md-2"><i class="glyphicon glyphicon-zoom-in"></i> IMAGEM AMPLIADA</button>
+        <button class="btn btn-default btn-sm" id="btn-img-passamouse col-md-10"><i class="glyphicon glyphicon-hand-up"></i> PASSE O MOUSE PARA VER A IMAGEM AMPLIADA</button>
+        <br />
+        <div id="img-secundaria" class="text-left">
+            @Html.ImagemProduto(Model.ProdutoCor.Id, 0)
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="div-decricao-produto" class="text-left row">
+            <div class="col-md-12">
+                <h4 id="nome-decricao">
+                    @Html.NomeProduto(Model.Produto, "nome-produto-details", "label-nome-produto", "label-nome-produto")<br />
+                    <span class="text-muted">Ref.: <span id="codReferencia">@Model.Id.AsInt()</span></span>
+                    @*-
+                    @Html.DescricaoProduto(Model.Produto, "descricao-produto-details", "label-descricao-produto", "label-descricao-produto")*@
+                </h4>
+            </div>
+        </div>
+        <div id="div-forma-pagamento" class="row">
+            <div class="col-md-6 text-left" id="avaliacao">
+                @if (Model.AvaliacaoProduto.Any())
+                {
+                var sim = Model.AvaliacaoProduto.Count(c => c.Recomendaria == Recomendaria.Sim);
+                var total = Model.AvaliacaoProduto.Count;
+                var porcent = (sim / total) * 100;
+                <p><h2><span class="text-success">@porcent%</span></h2> dos clientes recomendam este produto.</p>
+                }
+                else
+                {
+                <a href="#avaliacaoProduto" class="btn btn-success btn-sm">Avaliação de produtos</a>
+                }
+            </div>
+            <div class="col-md-6">
+                <a href="#avaliacaoProduto" style="text-decoration:none;">
+                    <h5 class="text-left">
+                        <span class="text-muted">Avaliação</span> <br />
+                        <span id="AvaliacaoNota">
+                            @{
+                            var nota = Model.AvaliacaoProduto.Any() ? Model.AvaliacaoProduto.Average(c => c.Nota) : 0;
+                            }
+                            @for (int i = 0; i < 5; i++)
+                            {
+                            if (i < nota)
+                            {
+                            <i class="glyphicon glyphicon-star" style="font-size: 15px; color:#ffd800;"></i>
+                            }
+                            else
+                            {
+                            <i class="glyphicon glyphicon-star" style="font-size: 15px; color:gray;"></i>
+                            }
+
+                            }<span>(@Model.AvaliacaoProduto.Count)</span>
+                        </span>
+                    </h5>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-left">
+                <span class="text-info" style="font-size: 20px;">Quantidade em estoque: </span> <span style="font-size: 20px;" class="alert-info" id="quantidadeEstoque">@ViewBag.QuantidadeEstoque</span>
+            </div>
+        </div>
+        <div class="row">
+            <div id="div-preco-produto" class="col-md-6">
+                <h4 class="text-muted text-left" style="text-decoration: line-through">
+                    @{ 
+                        var lavelValorId = $"origemlabel-valor-produto" + Model.ProdutoId;
+                        var promocao = Model.PromocaoItems.FirstOrDefault(c => c.Promocao.Ativo && c.Promocao.TipoExibicao != TipoDeExibicao.CupomDesconto);
+                        var valor = "";
+                        if (promocao != null && ECommerce.Web.Areas.Admin.Controllers.PromotionsController.VerificaPromocao(promocao.Promocao))
+                        {
+                            valor = $"De: {Model.TabelaPrecos.First(c => c.OptLoja == 1).Valor.Value.ToString("C")}";
+                        }
+                    }
+                    <label id="@lavelValorId">
+                        @valor 
+                    </label>
+                </h4>
+                <h2 class="text-left text-danger">
+                    @Html.ValorProduto(Model.Produto, "preco-produto-details", "label-valor-produto", "label-preco-produto", Model.Id)
+                </h2>
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-success">Pague com PagSeguro em até 18 vezes.</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div id="div-cores-produto" class="col-md-3">
+                <label>Cores disponíveis</label>
+                @Html.CoresProduto(Model.Produto.ProdutoTamanhos.First(p => p.Id == Model.ProdutoTamanhoId.Value), "cores-produto-details", "", "", Model.ProdutoCorId.Value, false)
+            </div>
+            <div id="div-tipos-produto" class="col-md-9">
+                <label>Tamanhos disponíveis</label>
+                @Html.TiposProdutoFor(Model.Produto, "tipos-produto", "tipos-produto-details", Model.ProdutoTamanhoId.Value, Model.ProdutoCorId.Value)
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            @*<div id="div-btn-comprar" class="col-md-6">
+            @Html.FormularioProduto(Model.Produto, "Carrinho", "Adicionar", "Comprar", "btn-success", Model.ProdutoTamanhoId.Value, Model.ProdutoCorId.Value)
+            </div>*@
+            <div id="div-btn-adicionar-carrinho" class="col-md-12">
+                @{
+                var disp = new Estoque().AvaliaDisponibilidade(Model.Id) > 0;
+                }
+                @if (disp)
+                {
+                    @Html.FormularioProduto(Model.Produto, "Carrinho", "Adicionar", "+ Adicionar ao carrinho", "btn-success", Model.ProdutoTamanhoId.Value, Model.ProdutoCorId.Value)
+                }
+                else
+                {
+                    @Html.FormularioProduto(Model.Produto, "ProdutoVitrine", "EviarEmail", "Avise-me !", "btn-warning open-modal", disponibilidade: true);
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.FichaTecnica != null)
+{
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading text-center">
+            <h3>Ficha técnica</h3>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Descricao.Trim()))
+                    {
+                    <tr>
+                        <td>Descrição</td>
+                        <td><pre>@Model.FichaTecnica.Descricao.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Informacoes.Trim()))
+                    {
+                    <tr>
+                        <td>Informações</td>
+                        <td><pre>@Model.FichaTecnica.Informacoes.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Beneficio.Trim()))
+                    {
+                    <tr>
+                        <td>Benefícios</td>
+                        <td><pre>@Model.FichaTecnica.Beneficio.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Lavagem.Trim()))
+                    {
+                    <tr>
+                        <td>Lavagem</td>
+                        <td><pre>@Model.FichaTecnica.Lavagem.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Advertencia.Trim()))
+                    {
+                    <tr>
+                        <td>Advertências</td>
+                        <td><pre>@Model.FichaTecnica.Advertencia.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Caracteristica.Trim()))
+                    {
+                    <tr>
+                        <td>Características</td>
+                        <td><pre> @Model.FichaTecnica.Caracteristica.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Finalidade.Trim()))
+                    {
+                    <tr>
+                        <td>Finalidade</td>
+                        <td><pre>@Model.FichaTecnica.Finalidade.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Indicacao.Trim()))
+                    {
+                    <tr>
+                        <td>Indicação</td>
+                        <td><pre>@Model.FichaTecnica.Indicacao.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Composicacao.Trim()))
+                    {
+                    <tr>
+                        <td>Composição</td>
+                        <td><pre>@Model.FichaTecnica.Composicacao.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Certificado.Trim()))
+                    {
+                    <tr>
+                        <td>Certificado</td>
+                        <td><pre>@Model.FichaTecnica.Certificado.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Comercial.Trim()))
+                    {
+                    <tr>
+                        <td>Comercial</td>
+                        <td><pre>@Model.FichaTecnica.Comercial.Trim()</pre></td>
+                    </tr>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.FichaTecnica.Comercial.Trim()))
+                    {
+                    <tr>
+                        <td>Embalagem Gráfica</td>
+                        <td><pre>@Model.FichaTecnica.EmbalagemGrafica.Trim()</pre></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+}
+
+<div class="row" id="avaliacaoProduto">
+    <div class="text-center">
+        <h2>Avaliação do Produto</h2>
+    </div>
+    <div>
+        <div id="AvaliacaoCreate">
+            @{
+            try
+            {
+            Html.RenderAction("Create", "AvaliacaoProdutos", new { produtoMotadoId = Model.Id });
+            }
+            catch (Exception)
+            {
+
+            }
+            }
+        </div>
+        <hr />
+        <div id="AvaliacaoLista">
+            @{ Html.RenderAction("Index", "AvaliacaoProdutos", new { produtoMontadoId = Model.Id });}
+        </div>
+    </div>
+</div>

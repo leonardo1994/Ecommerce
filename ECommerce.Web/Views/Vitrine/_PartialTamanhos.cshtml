@@ -1,0 +1,14 @@
+﻿@model IList<ProdutoTamanho>
+@using ECommerce.Web.Areas.Admin.Models
+
+@foreach (var item in Model)
+{
+    if (Model.IndexOf(item) == 0)
+    {
+        <button class="active">@item.Tamanho.Descricao</button>
+    }
+    else
+    {
+        <button class="active">@item.Tamanho.Descricao</button>
+    }
+}

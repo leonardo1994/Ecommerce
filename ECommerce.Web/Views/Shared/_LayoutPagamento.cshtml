@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ECommerce</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.css" integrity="sha256-dqPXSfyyYAqTDlV0XgwmAeDoFrlHqfNt74YKmxAFL6E=" crossorigin="anonymous" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <div id="wait" style="background-color:white; display:none;width:69px;height:89px;border:1px solid black;position:fixed;top:50%;left:50%;padding:2px;z-index:99999999999;"><img src='/Img/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.js" integrity="sha256-L4R3B3t5kFOA5eFW0zYsx5hI8ZwopGsuGuxlfI8dhiM=" crossorigin="anonymous"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/custom")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

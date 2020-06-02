@@ -1,0 +1,83 @@
+﻿@model ECommerce.Web.Areas.Admin.Models.Promocao
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Excluir</h2>
+
+<h3>Deseja realmente excluir?</h3>
+<div>
+    <h4>Promotion</h4>
+    <hr />
+    <dl class="dl-horizontal"> 
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Imagem)
+        </dt>
+
+        <dd>
+            <img src="@Model.Imagem" alt="" class="img-responsive" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoraInicial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoraInicial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoraFinal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoraFinal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar para lista", "Index")
+        </div>
+    }
+</div>

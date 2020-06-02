@@ -1,0 +1,31 @@
+﻿using System.Web.Mvc;
+
+namespace ECommerce.Web.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index(int? pagina, string categoriaId, string subCategoriaId, string search, int? promocaoId)
+        {
+            ViewBag.Pagina = (pagina ?? 1);
+            ViewBag.CategoriaId = categoriaId;
+            ViewBag.SubCategoriaId = subCategoriaId;
+            ViewBag.Search = search;
+            ViewBag.PromocaoId = promocaoId;
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+    }
+}

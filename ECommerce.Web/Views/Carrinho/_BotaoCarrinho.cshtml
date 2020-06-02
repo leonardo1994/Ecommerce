@@ -1,0 +1,6 @@
+﻿@model int
+<a href="/Carrinho/" class="btn btn-primary btn-md" style="margin: auto; width: 100%;">
+    <i class="glyphicon glyphicon-shopping-cart"></i>
+    @{ var result = Model == 0 ? "seu carrinho está vazio" : Model == 1 ? Model + " item no carrinho" : Model + " itens no carrinho"; }
+    @result
+</a>

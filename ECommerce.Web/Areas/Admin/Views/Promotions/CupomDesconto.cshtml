@@ -1,0 +1,58 @@
+﻿@model ECommerce.Web.Areas.Admin.Models.Promocao
+
+@if (Model != null)
+{
+    <!-- Button trigger modal -->
+    <button id="BtnCupomDesconto" type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModalCupom">
+        @if (!Request.IsAuthenticated)
+        {
+            @Model.Descricao
+        }
+        else
+        {
+            <span class="text-center">Você tem um desconto <br /> é por tempo limitado. <br /> Aproveite! <br /> clique aqui e confira.</span>
+        }
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModalCupom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="myModalLabel">
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <span>Cadastra-se agora e fique por dentro de nossas promoções e descontos</span>
+                        }
+                        else
+                        {
+                            @Model.Descricao
+                        }
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="@Model.Imagem" class="img-responsive" style="margin: auto;max-height: 350px;" />
+                        </div>
+                        @if (!Request.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Cadastra-se agora mesmo (clique aqui)", "Register", "Account", new { area = "", returnUrl = "" }, new { @class = "btn btn-lg btn-success" })
+                        }
+                        else
+                        {
+                            <div class="text-center">
+                                <h3>Informe o código promocional no seu carrinho, para ganhar o desconto</h3>
+                                <h1 class="text-info">@Model.Codigo</h1>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
