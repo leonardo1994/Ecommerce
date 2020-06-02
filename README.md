@@ -1,2 +1,2 @@
 # Ecommerce
-Sistema de Ecommerce integrado com Mercado Pago e Correios
+Sistema de Ecommerce integrado com Pag Seguros e Correios
